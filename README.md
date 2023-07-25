@@ -5,10 +5,13 @@ Firmware: [CircuitPython 8.2.x](https://github.com/adafruit/circuitpython/releas
 
 - built with [Adafruit instructions](https://learn.adafruit.com/building-circuitpython/build-circuitpython)
 - edit bInterval to be 0x01 (1 ms or 1000Hz) in the [usb_hid init file](https://github.com/adafruit/circuitpython/blob/main/shared-module/usb_hid/__init__.c)
+- Precompiled firmware for the kb2040 and the official pi pico can be found in [`firmware`](https://github.com/RaeedAhmed/pico-ddr/tree/main/firmware)
 
 board: [Adafruit KB2040](https://www.adafruit.com/product/5302 "KB2040 Product Page")
 
-`boot.py` and `code.py` must be in the root directory of the mounted CIRCUITPY drive that appears when you connect the device
+Hold the BOOTSEL button on the device while plugging it in to your computer. A mountable disk should appear. Copy over the `.uf2` firmware to the disk, which will cause the device to auto-reboot with the new firmware. eventually a CIRCUITPY drive should appear.
+
+`boot.py` and `code.py` must be in the root directory of the mounted CIRCUITPY drive
 
 
 ## USB descriptor
@@ -39,7 +42,7 @@ The general idea is to collect data from your inputs and ensure the total amount
 
 ### Sending data
 
-In `code.py`, `button_state` is updated as events from the panels are captured. Some bitwise operations edit the state before packing it using `struct`
+In `code.py`, `button_state` is updated as events from the panels are captured. After performing bitwise operations for each button on the state, the program packs the state using `struct`
 
 See the python docs on [byte order/size/alignment](https://docs.python.org/3/library/struct.html#byte-order-size-and-alignment) and [formatting](https://docs.python.org/3/library/struct.html#format-characters) of structs. In this case, we want an unpadded, 1 byte size integer to send over usb, so we can use a little endian unsigned char (e.g "<B").
 
