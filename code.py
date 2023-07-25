@@ -35,8 +35,8 @@ def update_state(state, panel, index):
 
 def main():
     gamepad = usb_hid.devices[0]
-    button_pins = (board.GP0, board.GP1, board.GP2, board.GP3)
-    led_pins = (board.GP15, board.GP16, board.GP17, board.GP18)
+    button_pins = (board.D0, board.D1, board.D2, board.D3)
+    led_pins = (board.D4, board.D5, board.D6, board.D7)
     buttons = (create_button(pin) for pin in button_pins)
     leds = (create_led(pin) for pin in led_pins)
     panels = [Panel(button, led) for button, led in zip(buttons, leds)]
